@@ -11,6 +11,7 @@ const NavStyled = styled.nav`
 export default function Nav(props) {
     return (
     <NavStyled>
+        <button onClick={() => props.onRandom()}>random</button>
         <SearchBar onSearch={props.onSearch}/>
     </NavStyled>)
 }

@@ -9,35 +9,41 @@ import Nav from './components/Nav'
 function App () {
 
   
-  const example = {
-    name: 'Morty Smith',
-    species: 'Human',
-    gender: 'Male',
-    image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-  };
   const [characters, setCharacters] = useState([])
 
-  function onSearch(character) {
-   fetch(`https://rickandmortyapi.com/api/character/${character}`)
-      .then((response) => response.json())
-      .then((data) => {
-         if (data.name) {
-            setCharacters((oldChars) => [...oldChars, data]);
-         } else {
-            window.alert('No hay personajes con ese ID');
-         }
-      });
-}
-  const alerta = () => {alert(characters.personajes)}
+  const onSearch = (character) => {
+    if(characters.filter( chac => chac.id == character).length == 0){
+        fetch(`https://rickandmortyapi.com/api/character/${character}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.name) {
+                setCharacters((oldChars) => [...oldChars, data]);
+            } else {
+                window.alert('No hay personajes con ese ID');
+            }
+            });
+        } else {
+          alert("Ya tienes esa carta")
+        }
+      }
+      
+  const onClose = (e) => {
+   setCharacters(characters.filter((chac) => chac.id != e))
+    }
 
+  const onRandom = () => {
+    let numeroRandom = Math.round(Math.random() * 826);
+    onSearch(numeroRandom)
+  }
 
   return (
     <div className='App'>
       <div id="divNav">
-        <Nav onSearch={onSearch}/>
+        <Nav onSearch={onSearch} onRandom={onRandom}/>
       </div>
       <div id="divCharacters">
         <Cards
+          onClose={onClose}
           characters={characters}
         />
       </div>
