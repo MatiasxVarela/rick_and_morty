@@ -42,7 +42,7 @@ const Cruz = styled.div`
     height: 3px;
     background-color: #FF3548;
     position: absolute;
-    transform: translate(1px, -2px) rotate(45deg);
+    transform: translate(1.5px, -2px) rotate(45deg);
 `;
 // carta frente
 const DivMain = styled.div`
@@ -58,6 +58,7 @@ const DivMain = styled.div`
    transition: transform 1s;
    transform-style: preserve-3d;
    position: absolute;
+   box-shadow: 0px 6px 12px #00000029;
 `;
 
 const DivTittle = styled.div`
@@ -77,7 +78,7 @@ const DivTittle = styled.div`
       height: 67px;
       background: #00444D;
       opacity: 1;
-      transform: translate(-1px);
+      transform: translate(-0.9px, -1px);
  `;
 const DivTittleH2 = styled.h2`
    margin: 7px 0px 0px 0px;
@@ -89,7 +90,7 @@ const ImgCard = styled.img`
    width: 299px;
    height: 300px;
    /* UI Properties */
-   background: transparent 0% 0% no-repeat padding-box;
+   background: transparent;
    box-shadow: 0px 3px 3px #00000029;
    border: 6px solid #008799;
    border-radius: 10px;
@@ -135,12 +136,12 @@ const BackCruz = styled.div`
     height: 3px;
     background-color: #FF3548;
     position: absolute;
-    transform: translateZ(-1px) translate(1px, -2px) rotate(45deg);
+    transform: translateZ(1px) translate(1.5px, -2px) rotate(45deg);
 `;
 const ButtonExitBack = styled.button`
    &:hover{
       transition: all 0.45s;
-      transform: scale(1.15) translate(-435px,-18px);
+      transform: scale(1.15) translate(-456px,-18px);
       box-shadow: -5px 5px 20px -10px red;
    }
    margin: 0px 0px 0px 318px;
@@ -150,7 +151,8 @@ const ButtonExitBack = styled.button`
     background: #B2DF28;
     border: 4.5px solid #00444D;
     border-radius: 50%;
-    transform: translateZ(-1px) translate(-501px,-21px);
+    transform: translateZ(-1px) translate(-525px,-21px);
+    z-index: 2;
 `;
 
 export default function Card(props) {
@@ -174,8 +176,16 @@ export default function Card(props) {
                <ButtonExitBack onClick={props.onClose}>
                   <BackCruz></BackCruz>
                </ButtonExitBack>
-               
-               holaaa
+               <DivBackgroundTittle>
+                  <DivTittle>
+                     <DivTittleH2>{props.name}</DivTittleH2>
+                  </DivTittle>
+               </DivBackgroundTittle>
+               <div style={{marginTop:"55px", padding:"20px"}}>
+                  <InfoH2>{"Status: " + props.status + "."}</InfoH2>
+                  {props.type !== "" && <InfoH2>{"Type: " + props.type + "."}</InfoH2>}
+                  <InfoH2>{"Origin: " + props.origin + "."}</InfoH2>
+               </div>
             </CardBack>
          </DivMain>
       </ContainerAll>
