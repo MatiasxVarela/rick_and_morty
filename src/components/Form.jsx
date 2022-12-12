@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import validation from "./validation";
+import validationEmail from "./Functions/validationEmail";
+import validationPass from "./Functions/validationPass";
 
 const ContenedorForm = styled.form`
-    margin: 15vh auto auto auto;
-    height: 350px;
+    margin: 23vh auto auto auto;
+    height: 325px;
     width: 400px;
     padding: 50px;
     background-color: gray;
@@ -22,7 +23,9 @@ const IndivualInput = styled.div`
 `;
 const PError = styled.p`
     color: #8A440E;
-    font-size: 15px;
+    font-size: 16px;
+    margin-bottom: -13px;
+    transform: translate(0px, -7px);
 `;
 export default function Form (props) {
     const [userData, setUserData] = React.useState({
@@ -35,31 +38,35 @@ export default function Form (props) {
          password: '' 
         });
 
-    const handleChange = (e) => {
+    const handleChangeEmail = (e) => {
+        const errorsEmail = validationEmail(e.target.value)
         setUserData({...userData, [e.target.name]: e.target.value})
-        setErrors(
-            validation({
-                ...userData, [e.target.name]: e.target.value
-            })
-        )
+        setErrors({...errors, [e.target.name]: errorsEmail})
+    }
+
+    const handleChangePass = (e) => {
+        const errorPass = validationPass(e.target.value)
+        setUserData({...userData, [e.target.name]: e.target.value})
+        setErrors({...errors, [e.target.name]: errorPass})
     }
 
     const handleSubmit = (e) => {
+        e.preventDefault()
         props.login(userData)
     }
     return ( 
-        <ContenedorForm onSubmit={() => handleSubmit()}>
+        <ContenedorForm onSubmit={(e) => handleSubmit(e) }>
             <IndivualInput>
                 <label htmlFor="username">Username: </label>
-                <input name="username" type="text" onChange={handleChange} placeholder="ejemplo@gmail.com"/>
+                <input name="username" type="text" onChange={handleChangeEmail} placeholder="ejemplo@gmail.com" autocomplete="off"/>
                 {errors.username !== "" && <PError>{errors.username}</PError>}
             </IndivualInput>
             <IndivualInput>
                 <label htmlFor="password">Password: </label>
-                <input name="password" type="password" onChange={handleChange} placeholder="1password"/>
+                <input name="password" type="password" onChange={handleChangePass} placeholder="1password" autocomplete="off"/>
                 {errors.password !== "" && <PError>{errors.password}</PError>}
             </IndivualInput>
-                <button type="submit">LOGIN</button>
+                <button type="submit" style={{marginTop: "7px"}}>LOGIN</button>
                 <p>Para poder logearte debes usar:</p>
                 <p>Email: ejemplo@gmail.com</p>
                 <p>Pass: 1password</p>
